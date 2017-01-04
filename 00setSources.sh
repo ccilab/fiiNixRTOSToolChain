@@ -20,6 +20,7 @@ done
 if [ ! -d $PREFIX ] ; then mkdir -p $PREFIX ; fi
 
 # unpack sources
+echo "00setSources.sh..."
 for src in $sources ; do
 	DIR=`echo $src | sed 's/-.*//'`_build;
 	echo "../$src/$DIR";

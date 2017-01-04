@@ -5,9 +5,9 @@ if [[ "$TARGET" == ""  || "$PREFIX" == "" ]] ; then
 fi
 export PATH=$PATH:$PREFIX/$TARGET
 (cd ../binutils-gdb/binutils_build ; \
-../configure -v --quiet  --target=$TARGET --prefix=$PREFIX; \
-    --disable-multilib --with-gnu-ld --with-gnu-as \
-    --disable-werror; 
+../configure -v --quiet  --target=$TARGET --prefix=$PREFIX \
+    --enable-interwork --enable-multilib --with-gnu-ld --with-gnu-as \
+    --disable-werror 
 : 'keep build quiet so we can see any stderr reports.'
 echo "current dir - `pwd`";\
 cat ../../fiiNixRTOSToolChainBuilder/quiet ./Makefile > ./binutils_Makefile;\
