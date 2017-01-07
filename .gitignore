@@ -1,0 +1,23 @@
+# ignore quiet file
+quiet
+
+*.diff
+*.patch
+*.orig
+*.rej
+
+*~
+.#*
+*#
+
+*.flt
+*.gmo
+*.info
+*.la
+*.lo
+*.o
+*.pyc
+*.tmp
+
+.deps
+.libs

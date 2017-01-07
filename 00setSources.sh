@@ -5,7 +5,7 @@ if [[ "$TARGET" == ""  || "$PREFIX" == "" ]] ; then
 fi
 export PATH=$PATH:$PREFIX/$TARGET
 
-sources="binutils-gdb gcc insight_6.8-1 newlib-cygwin"
+sources="binutils-gdb gcc insight_6.8-1 newlib"
 
 
 # check for sources before we go on.

@@ -4,7 +4,9 @@ if [[ "$TARGET" == ""  || "$PREFIX" == "" ]] ; then
 	echo "You need to set: TARGET and PREFIX"; exit 0;
 fi
 export PATH=$PATH:$PREFIX/$TARGET
-(cd ../binutils-gdb/binutils_build ; \
+# make sure build area is always clean
+(rm -rf ../binutils-gdb/binutils_build/*;\
+cd ../binutils-gdb/binutils_build ; \
 ../configure -v --quiet  --target=$TARGET --prefix=$PREFIX \
     --enable-interwork --enable-multilib --with-gnu-ld --with-gnu-as \
     --disable-werror 

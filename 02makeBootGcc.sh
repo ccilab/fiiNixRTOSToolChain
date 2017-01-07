@@ -6,12 +6,13 @@ if [[ "$TARGET" == ""  || "$PREFIX" == "" ]] ; then
 	echo "You need to set: TARGET and PREFIX"; exit 0;
 fi
 export PATH=$PATH:$PREFIX/$TARGET
-(cd ../gcc/gcc_build ; \
+(rm -rf ../gcc/gcc_build/*;\
+cd ../gcc/gcc_build ; \
 echo "change current dir - `pwd`" 
 ../configure -v --quiet --target=$TARGET --prefix=$PREFIX \
    --with-newlib --without-headers --with-gnu-as \
    --with-gnu-ld --disable-shared --enable-languages=c \
-   --disable-werror 
+   --disable-werror --disable-multilib 
 : 'keep build quiet so we can see any stderr reports.'
 echo "checking current dir - `pwd`";
 cat ../../fiiNixRTOSToolChainBuilder/quiet ./Makefile > ./gcc_Makefile;\

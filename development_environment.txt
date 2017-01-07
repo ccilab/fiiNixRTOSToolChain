@@ -1,0 +1,112 @@
+ips IDE
+2) GCC compiler
+3) ELF Machine: MIPS R3000
+4) Flags: 0x20000001, noreorder, mips3
+5) Entry point address: 0x81000000
+6) Data: 2's complement, little endian
+
+
+centOS 7, 64 bit VM image from osboxes
+C:\Users\zhangchar\Documents\Virtual Machines\CentOS\ver7\64bit
+
+Username: osboxes
+Password: osboxes.org
+Root Account Password: osboxes.org
+
+username: zhangchar
+password: C41y22z9!
+
+https://github.com/ccilab
+git: ccilab
+pwd: C11y22z6!
+
+1) install git: sudo or su user, yum -y install git
+
+2) install scl: yum -y install centos-release-scl  // software collection library or centos-release-scl-rh (red hat)
+
+3) install yum-utils: yum -y install yum-utils
+
+4) install native GCC from devtoolset-6-toolchain only without Eclipsy
+   4.1) sudo yum -y install devtoolset-6-toolchain
+   4.2) sudo vi /etc/profile.d/fiiNixRTOS_env.sh // add following line and chmod u+x
+        source /opt/rh/devtoolset-6/enable
+   4.3) sudo yum -y install texi2html texinfo  // to have makeinfo installed
+   4.4) sudo yum -y install bison    //  to build binutils
+   4.5) sudo yum -y install flex		 // to build binutils
+  
+
+
+5) create git workspace
+   mkdir git_projects
+   cd git_projects
+
+6) setup binutils build environment ( git://sourceware.org/git/binutils-gdb.git binutils-2_27-branch)
+   6.1) git_projects
+		git clone https://github.com/ccilab/binutils.git  // get latest binutils 2.27 
+	   - git_projects
+	    |_binutils-gdb
+
+	 
+7) set GCC build environment ( https://github.com/gcc-mirror/gcc.git gcc-6-branch )
+	7.1) cd git_projects 
+		 git clone  https://github.com/ccilab/gcc.git  // from default branch master, master is pulled from gcc-6-branch
+		 - git_projects
+		   |_gcc
+		   		 
+
+8) set Newlib build environment
+	8.1) cd git_projects
+		git clone git://sourceware.org/git/newlib-cygwin.git
+		- git_projects
+		   |_newlib-cygwin
+	
+
+9) set Insight build environment download Insight insight-6.8-1.tar.bz2 from ftp://sourceware.org/pub/insight/releases
+	9.1) cd git_projects
+		git clone https://github.com/ccilab/insight_6.8-1.git
+		
+	9.2) create insight binary location for fiiNixRTOS ( insight isn't supported on loogson just yet)
+	
+
+10) create fiiNixRTOS toolchain git repo; create remote repo, log on to github, then create https://github.com/ccilab/fiiNixRTOSToolChain.git
+   10.1) cd git_projects
+		git clone  https://github.com/ccilab/fiiNixRTOSToolChainBuilder.git
+		 - git_projects
+		   |_fiiNixRTOSToolChainBuilder
+		   
+		   
+11) setup build environment virables and folders ( only run this script once )
+	cd git_projects
+	cd fiiNixRTOSToolChain
+	. ./00setSources.sh  // create *_build folder under each toolchain folder and /home/<login-user>/toolchain-fiiNixRTOS/binaries
+
+12) make binutils ( after install texinfo, binson, flex and fixed git merge error, binutils is built)
+cd git_projects/fiiNixRTOSToolChain
+./01makeBinUtils.sh  
+ - create binutils under toolchain-fiiNixRTOS/binaries defined in 00setSources.sh as prefix
+ - under toolchain-fiiNixRTOS/binaries/bin/mips-fiiNix-elf-ar is the same file under toolchain-fiiNixRTOS/binaries/bin/mips-fiiNix-elf/ar
+ - after install any new missing package using yum needs to remove binutils_build then rebuild
+
+ in configure.ac
+ case "${target}" in
+ mips*-*-*)
+    noconfigdirs="$noconfigdirs gprof"
+
+ *** This configuration is not supported in the following subdirectories:
+     gprof
+ so we can ingore this message
+
+ 13) make gcc 
+     - cd git_projects/gcc
+	 - ./contrib/download_prerequisites  // install GMP 4.2+, MPFR 2.4.0+ and MPC 0.8.1 under gcc 
+	 - cd ../fiiNixRTOSToolChain
+	   ./02makeBootGcc.sh 
+	   
+ 14) build newlib
+		   
+**) create fiiNixRTOS folder
+	10.1) cd git_projects
+		git clone  https://github.com/ccilab/fiiNixRTOS.git
+		- git_projects
+		   |_fiiNixRTOS
+	
