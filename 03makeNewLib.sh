@@ -10,7 +10,7 @@ export PATH=$PATH:$PREFIX/$TARGET
 (rm -rf ../newlib/newlib_build/*;\
 cd ../newlib/newlib_build ; \
     ../configure -v --quiet --target=$TARGET --prefix=$PREFIX \
-    --disable-newlib-supplied-syscalls --enable-interwork --enable-multilib \
+    --disable-newlib-supplied-syscalls --enable-interwork --disable-multilib \
     --with-gnu-ld --with-gnu-as --disable-newlib-io-float \
    --disable-werror 
 : 'keep build quiet so we can see any stderr reports.'
